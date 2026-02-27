@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     {
         if (jumpAction.triggered)
         {
-
+            rb.AddForce(100 * Vector3.right, ForceMode.Impulse);
         }
     }
 }
