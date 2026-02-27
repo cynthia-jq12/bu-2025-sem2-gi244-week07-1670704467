@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public float gravityMultiplier = 1f;
     private Rigidbody rb;
     private InputAction jumpAction;
+    private bool IsOnGround = false;
 
     void Awake()
     {
@@ -17,15 +18,25 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        Physics.gravity *= gravityMultiplier;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (jumpAction.triggered)
+        if (jumpAction.triggered && IsOnGround == true)
         {
-            rb.AddForce(100 * Vector3.right, ForceMode.Impulse);
+            rb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
+            IsOnGround = false;
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        //Debug.Log("hit" + collision.gameObject.name);
+        //if (collision.gameObject.tag == "Ground")
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            IsOnGround = true;
         }
     }
 }
